@@ -6,21 +6,25 @@ import com.lomuto.atm_exception.ATMException;
 import java.util.ArrayList;
 
 public class Controller {
-    private static final int MAX_CASH = 1000;
-    private static Controller controllerInstance;
+    private static final int MAX_CASH = 10000;
+    private static ArrayList<Bank> banks = new ArrayList<>();
     private int remainCash;
-    private ArrayList<Bank> banks = new ArrayList<>();
+    private final String currentProcessingCardNumber;
 
-    public static Controller getInstance() {
-        if(controllerInstance == null) {
-            controllerInstance = new Controller();
+    private Controller(String cardNumber) {
+        this.currentProcessingCardNumber = cardNumber;
+    }
+
+    public static Controller getControllerOrNull(String cardNumber) {
+        if (Controller.isCardValid(cardNumber)) {
+            return new Controller(cardNumber);
         }
 
-        return controllerInstance;
+        return null;
     }
 
     public boolean setRemainCash(int amount) {
-        if(amount < 0) {
+        if (amount < 0) {
             return false;
         }
 
@@ -29,7 +33,7 @@ public class Controller {
     }
 
     public boolean depositCash(int amount) {
-        if(this.remainCash + amount > MAX_CASH) {
+        if (this.remainCash + amount > MAX_CASH) {
             return false;
         }
 
@@ -38,7 +42,7 @@ public class Controller {
     }
 
     public boolean withdrawCash(int amount) {
-        if(this.remainCash - amount < 0) {
+        if (this.remainCash - amount < 0) {
             return false;
         }
 
@@ -46,13 +50,13 @@ public class Controller {
         return true;
     }
 
-    public boolean readCard(String cardNumber) {
-        if(!isCardValid(cardNumber)) {
+    private static boolean isCardValid(String cardNumber) {
+        if (!isCardNumberValid(cardNumber)) {
             return false;
         }
 
-        for(Bank bank : banks) {
-            if(bank.hasCard(cardNumber)) {
+        for (Bank bank : banks) {
+            if (bank.hasCard(cardNumber)) {
                 return true;
             }
         }
@@ -63,13 +67,13 @@ public class Controller {
     /*
         Luhn algorithm
      */
-    private boolean isCardValid(String cardNumber) {
+    private static boolean isCardNumberValid(String cardNumber) {
         int sum = 0;
 
-        for(int i=0; i<cardNumber.length(); i++) {
+        for (int i = 0; i < cardNumber.length(); i++) {
             int digit = cardNumber.charAt(i);
 
-            if(i%2 == 0) {
+            if (i % 2 == 0) {
                 digit *= 2;
             }
 
@@ -80,5 +84,5 @@ public class Controller {
         return (sum % 10 == 0);
     }
 
-    private Controller(){}
+    public boolean checkPin(String)
 }
