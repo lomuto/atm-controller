@@ -1,13 +1,13 @@
 package com.lomuto.atm_exception;
 
 public class ATMException extends Exception{
-    private ErrorCode errorCode;
+    private ATMErrorCode ATMErrorCode;
 
-    public ATMException(ErrorCode errorCode) {
-        this.errorCode = errorCode;
+    public ATMException(ATMErrorCode ATMErrorCode) {
+        this.ATMErrorCode = ATMErrorCode;
     }
 
-    public ErrorCode getErrorCode() {
-        return this.errorCode;
+    public ATMErrorCode getErrorCode() {
+        return this.ATMErrorCode;
     }
 }
