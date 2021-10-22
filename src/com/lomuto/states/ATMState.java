@@ -1,10 +1,13 @@
-package com.lomuto;
+package com.lomuto.states;
+
+import com.lomuto.exception.ATMException;
+import com.lomuto.exception.InvalidCardException;
 
 public interface ATMState {
-    boolean insertCard(String cardNumber);
-    boolean enterPin(int pin);
-    void selectAccount();
-    int getBalance();
-    int withdraw();
-    void deposit(int amount);
+    void insertCard(String cardNumber) throws ATMException;
+    void enterPin(String pin) throws ATMException;
+    void selectAccount(int index) throws ATMException;
+    int getBalance() throws ATMException;
+    int withdraw(int amount) throws ATMException;
+    void deposit(int amount) throws ATMException;
 }

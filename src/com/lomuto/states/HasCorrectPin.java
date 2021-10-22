@@ -1,4 +1,9 @@
-package com.lomuto;
+package com.lomuto.states;
+
+import com.lomuto.ATMMachine;
+import com.lomuto.exception.AccountNotSelectedException;
+import com.lomuto.exception.CardAlreadyInsertedException;
+import com.lomuto.exception.ClientAlreadyAuthenticated;
 
 public class HasCorrectPin implements ATMState {
     private ATMMachine atmMachine;
@@ -8,32 +13,33 @@ public class HasCorrectPin implements ATMState {
     }
 
     @Override
-    public boolean insertCard(String cardNumber) {
-        return false;
+    public void insertCard(String cardNumber) throws CardAlreadyInsertedException {
+        throw new CardAlreadyInsertedException();
     }
 
     @Override
-    public boolean enterPin(int pin) {
-        return false;
+    public void enterPin(String pin) throws ClientAlreadyAuthenticated {
+        throw new ClientAlreadyAuthenticated();
     }
 
     @Override
-    public void selectAccount() {
-
+    public void selectAccount(int index) {
+        atmMachine.setSelectedAccount(atmMachine.getClientAccountsOrNull().get(index));
+        atmMachine.setATMState(atmMachine.getAccountSelectedState());
     }
 
     @Override
-    public int getBalance() {
-        return 0;
+    public int getBalance() throws AccountNotSelectedException {
+        throw new AccountNotSelectedException();
     }
 
     @Override
-    public int withdraw() {
-        return 0;
+    public int withdraw(int amount) throws AccountNotSelectedException {
+        throw new AccountNotSelectedException();
     }
 
     @Override
-    public void deposit(int amount) {
-
+    public void deposit(int amount) throws AccountNotSelectedException {
+        throw new AccountNotSelectedException();
     }
 }

@@ -1,4 +1,9 @@
-package com.lomuto;
+package com.lomuto.states;
+
+import com.lomuto.ATMMachine;
+import com.lomuto.Bank;
+import com.lomuto.exception.InvalidCardException;
+import com.lomuto.exception.NoCardException;
 
 public class NoCard implements ATMState {
     private ATMMachine atmMachine;
@@ -8,38 +13,46 @@ public class NoCard implements ATMState {
     }
 
     @Override
-    public boolean insertCard(String cardNumber) {
+    public void insertCard(String cardNumber) throws InvalidCardException {
         if (!isCardNumberValid(cardNumber)) {
-            return false;
+            throw new InvalidCardException();
         }
 
         atmMachine.setCardNumber(cardNumber);
-        return true;
+        for (Bank bank : ATMMachine.banks) {
+            if (bank.hasCard(cardNumber)) {
+                atmMachine.setClientBank(bank);
+                atmMachine.setATMState(atmMachine.getHasCardState());
+                return;
+            }
+        }
+
+        throw new InvalidCardException();
     }
 
     @Override
-    public boolean enterPin(int pin) {
-        return false;
+    public void enterPin(String pin) throws NoCardException {
+        throw new NoCardException();
     }
 
     @Override
-    public void selectAccount() {
-
+    public void selectAccount(int index) throws NoCardException {
+        throw new NoCardException();
     }
 
     @Override
-    public int getBalance() {
-        return 0;
+    public int getBalance() throws NoCardException {
+        throw new NoCardException();
     }
 
     @Override
-    public int withdraw() {
-        return 0;
+    public int withdraw(int amount) throws NoCardException {
+        throw new NoCardException();
     }
 
     @Override
-    public void deposit(int amount) {
-
+    public void deposit(int amount) throws NoCardException {
+        throw new NoCardException();
     }
 
     /*
