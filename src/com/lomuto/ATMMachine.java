@@ -8,7 +8,6 @@ import com.lomuto.states.AccountSelected;
 import com.lomuto.states.HasCard;
 import com.lomuto.states.HasCorrectPin;
 import com.lomuto.states.NoCard;
-import com.lomuto.states.OutOfMoney;
 
 import java.util.ArrayList;
 
@@ -86,6 +85,14 @@ public class ATMMachine {
 
     public void enterPin(String pin) throws ATMException {
         atmState.enterPin(pin);
+    }
+
+    public void selectAccount(int index) throws ATMException {
+        atmState.selectAccount(index);
+    }
+
+    public int getBalance() throws ATMException {
+        return atmState.getBalance();
     }
 
     public ATMState getNoCardState() {
