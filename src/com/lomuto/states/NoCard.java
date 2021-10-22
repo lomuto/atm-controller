@@ -60,18 +60,20 @@ public class NoCard implements ATMState {
      */
     private static boolean isCardNumberValid(String cardNumber) {
         int sum = 0;
+        boolean isSecond = false;
 
-        for (int i = 0; i < cardNumber.length(); i++) {
-            int digit = cardNumber.charAt(i);
+        for (int i = cardNumber.length() - 1; i >= 0; i--) {
+            int digit = cardNumber.charAt(i) - '0';
 
-            if (i % 2 == 0) {
+            if (isSecond) {
                 digit *= 2;
             }
 
             sum += digit / 10;
             sum += digit % 10;
-        }
 
+            isSecond ^= true;
+        }
         return (sum % 10 == 0);
     }
 }
