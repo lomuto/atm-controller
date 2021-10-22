@@ -5,14 +5,14 @@ import java.util.HashMap;
 
 public class Bank {
     private final HashMap<String, ArrayList<Account>> accountsByCardNumber;
-    private final HashMap<String, String> hashedPinByCardNumber;
+    private final HashMap<String, String> hashedPinNumberByCardNumber;
 
-    public Bank(HashMap<String, ArrayList<Account>> accountsByCardNumber, HashMap<String, String> hashedPinByCardNumber) {
+    public Bank(HashMap<String, ArrayList<Account>> accountsByCardNumber, HashMap<String, String> hashedPinNumberByCardNumber) {
         this.accountsByCardNumber = accountsByCardNumber;
-        this.hashedPinByCardNumber = hashedPinByCardNumber;
+        this.hashedPinNumberByCardNumber = hashedPinNumberByCardNumber;
     }
 
-    public ArrayList<Account> getAccountsOrNull(String cardNumber) {
+    public ArrayList<Account> getAccounts(String cardNumber) {
         return accountsByCardNumber.get(cardNumber);
     }
 
@@ -22,6 +22,6 @@ public class Bank {
 
     public boolean isPinValid(String cardNumber, String pin) {
         // Assume that pin has been hashed
-        return hashedPinByCardNumber.get(cardNumber).equals(pin);
+        return hashedPinNumberByCardNumber.get(cardNumber).equals(pin);
     }
 }
