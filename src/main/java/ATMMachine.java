@@ -43,6 +43,10 @@ public class ATMMachine {
         this(2000);
     }
 
+    public ATMState getAtmState() {
+        return this.atmState;
+    }
+
     public String getCardNumberOrNull() {
         return this.clientCardNumber;
     }
