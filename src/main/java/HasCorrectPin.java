@@ -1,9 +1,6 @@
-package main.java.states;
-
-import main.java.ATMMachine;
-import main.java.exception.AccountNotSelectedException;
-import main.java.exception.CardAlreadyInsertedException;
-import main.java.exception.ClientAlreadyAuthenticated;
+import exception.AccountNotSelectedException;
+import exception.CardAlreadyInsertedException;
+import exception.ClientAlreadyAuthenticated;
 
 public class HasCorrectPin implements ATMState {
     private ATMMachine atmMachine;
@@ -14,6 +11,7 @@ public class HasCorrectPin implements ATMState {
 
     @Override
     public void insertCard(String cardNumber) throws CardAlreadyInsertedException {
+        atmMachine.revertAtm();
         throw new CardAlreadyInsertedException();
     }
 
@@ -30,16 +28,19 @@ public class HasCorrectPin implements ATMState {
 
     @Override
     public int getBalance() throws AccountNotSelectedException {
+        atmMachine.revertAtm();
         throw new AccountNotSelectedException();
     }
 
     @Override
     public int withdraw(int amount) throws AccountNotSelectedException {
+        atmMachine.revertAtm();
         throw new AccountNotSelectedException();
     }
 
     @Override
-    public void deposit(int amount) throws AccountNotSelectedException {
+    public int deposit(int amount) throws AccountNotSelectedException {
+        atmMachine.revertAtm();
         throw new AccountNotSelectedException();
     }
 }

@@ -1,4 +1,4 @@
-package main.java.exception;
+package exception;
 
 public class ClientAlreadyAuthenticated extends ATMException{
     public ClientAlreadyAuthenticated() {

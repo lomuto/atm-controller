@@ -1,4 +1,4 @@
-package main.java.exception;
+package exception;
 
 public class AccountAlreadySelectedException extends ATMException {
     public AccountAlreadySelectedException() {

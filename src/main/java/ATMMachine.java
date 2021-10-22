@@ -1,13 +1,6 @@
-package main.java;
-
-import main.java.exception.ATMException;
-import main.java.exception.ATMFullException;
-import main.java.exception.NotEnoughRemianCashException;
-import main.java.states.ATMState;
-import main.java.states.AccountSelected;
-import main.java.states.HasCard;
-import main.java.states.HasCorrectPin;
-import main.java.states.NoCard;
+import exception.ATMException;
+import exception.ATMFullException;
+import exception.NotEnoughRemianCashException;
 
 import java.util.ArrayList;
 
@@ -22,6 +15,7 @@ public class ATMMachine {
     private ATMState accountSelected;
 
     private int remainCash;
+    private int attemptPinCount = 0;
     private String clientCardNumber;
     private Bank clientBank;
     private ArrayList<Account> clientAccounts;
@@ -47,7 +41,23 @@ public class ATMMachine {
         return this.atmState;
     }
 
-    public String getCardNumberOrNull() {
+    public static double getFee() {
+        return ATMMachine.FEE;
+    }
+
+    public static int getMaxCash() {
+        return ATMMachine.MAX_CASH;
+    }
+
+    public int getAttemptPinCount() {
+        return attemptPinCount;
+    }
+
+    public void increaseAttempt() {
+        this.attemptPinCount++;
+    }
+
+    public String getClientCardNumberOrNull() {
         return this.clientCardNumber;
     }
 
@@ -95,10 +105,6 @@ public class ATMMachine {
         atmState.selectAccount(index);
     }
 
-    public int getBalance() throws ATMException {
-        return atmState.getBalance();
-    }
-
     public ATMState getNoCardState() {
         return this.noCard;
     }
@@ -119,24 +125,27 @@ public class ATMMachine {
         return this.remainCash;
     }
 
-    public int withdraw(int amount) throws NotEnoughRemianCashException {
-        int totalAmountOfCashToWithDraw = (int) (amount * (1 + FEE));
-        if (this.remainCash - totalAmountOfCashToWithDraw < 0) {
-            throw new NotEnoughRemianCashException();
-        }
-
-        this.selectedAccount.withdraw(totalAmountOfCashToWithDraw);
-        this.remainCash -= amount;
-
-        return totalAmountOfCashToWithDraw;
+    public int getBalance() throws ATMException {
+        return atmState.getBalance();
     }
 
-    public void deposit(int amount) throws ATMFullException {
-        if (this.remainCash + amount > ATMMachine.MAX_CASH) {
-            throw new ATMFullException();
-        }
+    public int withdraw(int amount) throws ATMException {
+        int withdrawn = atmState.withdraw(amount);
+        remainCash -= amount;
+        return withdrawn;
+    }
 
-        this.selectedAccount.deposit(amount);
-        this.remainCash += amount;
+    public void deposit(int amount) throws ATMException {
+        int deposited = atmState.deposit(amount);
+        remainCash += amount;
+    }
+
+    public void revertAtm() {
+        this.attemptPinCount = 0;
+        this.clientCardNumber = null;
+        this.clientBank = null;
+        this.clientAccounts = null;
+        this.selectedAccount = null;
+        this.atmState = noCard;
     }
 }

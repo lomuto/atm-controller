@@ -1,4 +1,4 @@
-package main.java.exception;
+package exception;
 
 public class ATMException extends Exception{
     public ATMException(String message) {

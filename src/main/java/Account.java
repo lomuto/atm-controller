@@ -1,5 +1,3 @@
-package main.java;
-
 public class Account {
     private final String accountNumber;
     private int balance;

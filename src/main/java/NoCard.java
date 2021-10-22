@@ -1,9 +1,5 @@
-package main.java.states;
-
-import main.java.ATMMachine;
-import main.java.Bank;
-import main.java.exception.InvalidCardException;
-import main.java.exception.NoCardException;
+import exception.InvalidCardException;
+import exception.NoCardException;
 
 public class NoCard implements ATMState {
     private ATMMachine atmMachine;
@@ -51,7 +47,7 @@ public class NoCard implements ATMState {
     }
 
     @Override
-    public void deposit(int amount) throws NoCardException {
+    public int deposit(int amount) throws NoCardException {
         throw new NoCardException();
     }
 
