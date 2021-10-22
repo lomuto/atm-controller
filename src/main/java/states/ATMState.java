@@ -1,7 +1,6 @@
-package com.lomuto.states;
+package main.java.states;
 
-import com.lomuto.exception.ATMException;
-import com.lomuto.exception.InvalidCardException;
+import main.java.exception.ATMException;
 
 public interface ATMState {
     void insertCard(String cardNumber) throws ATMException;

@@ -1,11 +1,11 @@
-package com.lomuto.states;
+package main.java.states;
 
-import com.lomuto.ATMMachine;
-import com.lomuto.exception.ATMFullException;
-import com.lomuto.exception.AccountAlreadySelectedException;
-import com.lomuto.exception.CardAlreadyInsertedException;
-import com.lomuto.exception.ClientAlreadyAuthenticated;
-import com.lomuto.exception.NotEnoughRemianCashException;
+import main.java.ATMMachine;
+import main.java.exception.ATMFullException;
+import main.java.exception.AccountAlreadySelectedException;
+import main.java.exception.CardAlreadyInsertedException;
+import main.java.exception.ClientAlreadyAuthenticated;
+import main.java.exception.NotEnoughRemianCashException;
 
 public class AccountSelected implements ATMState {
     private ATMMachine atmMachine;

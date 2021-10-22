@@ -1,4 +1,4 @@
-package com.lomuto.exception;
+package main.java.exception;
 
 public class NoAuthenticationException extends ATMException{
     public NoAuthenticationException() {

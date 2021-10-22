@@ -1,11 +1,10 @@
-package com.lomuto.test;
+package test.java;
 
-import com.lomuto.ATMMachine;
-import com.lomuto.Account;
-import com.lomuto.Bank;
-import com.lomuto.exception.ATMException;
-import com.lomuto.exception.InvalidCardException;
-import com.lomuto.exception.NoCardException;
+import main.java.ATMMachine;
+import main.java.Account;
+import main.java.Bank;
+import main.java.exception.ATMException;
+import main.java.exception.NoCardException;
 import org.junit.Before;
 import org.junit.Test;
 

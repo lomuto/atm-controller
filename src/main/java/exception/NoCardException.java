@@ -1,4 +1,4 @@
-package com.lomuto.exception;
+package main.java.exception;
 
 public class NoCardException extends ATMException{
     public NoCardException() {

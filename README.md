@@ -1,2 +1,2 @@
-# atm-controller
-simple atm controller
+# atm-ATM
+simple atm ATM

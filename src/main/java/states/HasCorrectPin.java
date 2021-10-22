@@ -1,9 +1,9 @@
-package com.lomuto.states;
+package main.java.states;
 
-import com.lomuto.ATMMachine;
-import com.lomuto.exception.AccountNotSelectedException;
-import com.lomuto.exception.CardAlreadyInsertedException;
-import com.lomuto.exception.ClientAlreadyAuthenticated;
+import main.java.ATMMachine;
+import main.java.exception.AccountNotSelectedException;
+import main.java.exception.CardAlreadyInsertedException;
+import main.java.exception.ClientAlreadyAuthenticated;
 
 public class HasCorrectPin implements ATMState {
     private ATMMachine atmMachine;

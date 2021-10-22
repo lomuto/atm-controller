@@ -1,9 +1,9 @@
-package com.lomuto.states;
+package main.java.states;
 
-import com.lomuto.ATMMachine;
-import com.lomuto.Bank;
-import com.lomuto.exception.InvalidCardException;
-import com.lomuto.exception.NoCardException;
+import main.java.ATMMachine;
+import main.java.Bank;
+import main.java.exception.InvalidCardException;
+import main.java.exception.NoCardException;
 
 public class NoCard implements ATMState {
     private ATMMachine atmMachine;

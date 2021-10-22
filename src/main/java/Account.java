@@ -1,4 +1,4 @@
-package com.lomuto;
+package main.java;
 
 public class Account {
     private final String accountNumber;

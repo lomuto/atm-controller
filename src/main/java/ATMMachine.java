@@ -1,13 +1,13 @@
-package com.lomuto;
+package main.java;
 
-import com.lomuto.exception.ATMException;
-import com.lomuto.exception.ATMFullException;
-import com.lomuto.exception.NotEnoughRemianCashException;
-import com.lomuto.states.ATMState;
-import com.lomuto.states.AccountSelected;
-import com.lomuto.states.HasCard;
-import com.lomuto.states.HasCorrectPin;
-import com.lomuto.states.NoCard;
+import main.java.exception.ATMException;
+import main.java.exception.ATMFullException;
+import main.java.exception.NotEnoughRemianCashException;
+import main.java.states.ATMState;
+import main.java.states.AccountSelected;
+import main.java.states.HasCard;
+import main.java.states.HasCorrectPin;
+import main.java.states.NoCard;
 
 import java.util.ArrayList;
 

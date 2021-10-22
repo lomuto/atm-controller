@@ -1,4 +1,4 @@
-package com.lomuto.exception;
+package main.java.exception;
 
 public class InvalidCardException extends ATMException{
     public InvalidCardException() {
