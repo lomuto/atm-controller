@@ -450,6 +450,9 @@ public class ATMMachineTest {
         assertThat(atm.getClientBankOrNull()).isEqualTo(null);
     }
 
+    /*
+        Test selecting duplicated account selection
+     */
     @Test
     public void AccountAlreadySelectedTest() throws ATMException {
         ATMMachine atm = new ATMMachine(100);
@@ -468,6 +471,9 @@ public class ATMMachineTest {
         assertThat(atm.getClientBankOrNull()).isNotEqualTo(null);
     }
 
+    /*
+        Test attempt to authenticate again
+     */
     @Test
     public void ClientAlreadyAuthTest() throws ATMException {
         {
@@ -503,6 +509,9 @@ public class ATMMachineTest {
         }
     }
 
+    /*
+        Test calling method before select account
+     */
     @Test
     public void AccountNotSelectedTest() throws ATMException {
         {
