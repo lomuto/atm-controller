@@ -20,24 +20,24 @@ import java.util.HashMap;
 
 public class ATMMachineTest {
     private Bank bank;
-    private String user0CardNumber = "4012888888881881";
-    private String user0Pin = "1234";
+    private String validCardNumber = "4012888888881881";
+    private String validPinNumber = "1234";
 
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         Account account0 = new Account("0", 20);
         Account account1 = new Account("1", 890);
         Account account2 = new Account("2", 290);
         ArrayList<Account> accountList = new ArrayList(Arrays.asList(account0, account1, account2));
 
-        HashMap<String, ArrayList<Account>> bank0Accounts = new HashMap<>();
-        bank0Accounts.put(user0CardNumber, accountList);
+        HashMap<String, ArrayList<Account>> bankAccounts = new HashMap<>();
+        bankAccounts.put(validCardNumber, accountList);
 
-        HashMap<String, String> bank0pin = new HashMap<>();
-        bank0pin.put(user0CardNumber, user0Pin);
+        HashMap<String, String> bankPinNumbers = new HashMap<>();
+        bankPinNumbers.put(validCardNumber, validPinNumber);
 
-        bank = new Bank(bank0Accounts, bank0pin);
+        bank = new Bank(bankAccounts, bankPinNumbers);
 
         ATMMachine.banks.clear();
         ATMMachine.banks.add(bank);
@@ -125,10 +125,10 @@ public class ATMMachineTest {
     @Test
     public void ValidCardTest() throws ATMException {
         ATMMachine atm = new ATMMachine(200);
-        atm.insertCard(user0CardNumber);
+        atm.insertCard(validCardNumber);
 
         assertThat(atm.getAtmState()).isEqualTo(atm.getHasCardState());
-        assertThat(atm.getClientCardNumberOrNull()).isEqualTo(user0CardNumber);
+        assertThat(atm.getClientCardNumberOrNull()).isEqualTo(validCardNumber);
         assertThat(atm.getClientBankOrNull()).isNotEqualTo(null);
     }
 
@@ -138,7 +138,7 @@ public class ATMMachineTest {
     @Test
     public void DuplicatedCardInsertionTest() throws ATMException {
         ATMMachine atm = new ATMMachine(200);
-        atm.insertCard(user0CardNumber);
+        atm.insertCard(validCardNumber);
 
         assertThatThrownBy(() -> {
             atm.insertCard("0034085951");
@@ -157,7 +157,7 @@ public class ATMMachineTest {
     @Test
     public void InvalidPinTest() throws ATMException {
         ATMMachine atm = new ATMMachine(200);
-        atm.insertCard(user0CardNumber);
+        atm.insertCard(validCardNumber);
 
         for (int i = 0; i < 4; i++) {
             assertThatThrownBy(() -> {
@@ -186,8 +186,8 @@ public class ATMMachineTest {
     @Test
     public void ValidPinTest() throws ATMException {
         ATMMachine atm = new ATMMachine(200);
-        atm.insertCard(user0CardNumber);
-        atm.enterPin(user0Pin);
+        atm.insertCard(validCardNumber);
+        atm.enterPin(validPinNumber);
 
         assertThat(atm.getAtmState()).isEqualTo(atm.getHasCorrectPinState());
         assertThat(atm.getClientAccountsOrNull()).isNotEqualTo(null);
@@ -200,7 +200,7 @@ public class ATMMachineTest {
     public void NotAuthenticatedTest() throws ATMException {
         {
             ATMMachine atm = new ATMMachine(200);
-            atm.insertCard(user0CardNumber);
+            atm.insertCard(validCardNumber);
 
             assertThatThrownBy(() -> {
                 atm.selectAccount(0);
@@ -215,7 +215,7 @@ public class ATMMachineTest {
 
         {
             ATMMachine atm = new ATMMachine(200);
-            atm.insertCard(user0CardNumber);
+            atm.insertCard(validCardNumber);
 
             assertThatThrownBy(() -> {
                 atm.getBalance();
@@ -230,7 +230,7 @@ public class ATMMachineTest {
 
         {
             ATMMachine atm = new ATMMachine(200);
-            atm.insertCard(user0CardNumber);
+            atm.insertCard(validCardNumber);
 
             assertThatThrownBy(() -> {
                 atm.deposit(100);
@@ -244,7 +244,7 @@ public class ATMMachineTest {
         }
         {
             ATMMachine atm = new ATMMachine(200);
-            atm.insertCard(user0CardNumber);
+            atm.insertCard(validCardNumber);
 
             assertThatThrownBy(() -> {
                 atm.withdraw(100);
@@ -266,22 +266,22 @@ public class ATMMachineTest {
     public void AccountSelectTest() throws ATMException {
         {
             ATMMachine atm = new ATMMachine(200);
-            atm.insertCard(user0CardNumber);
-            atm.enterPin(user0Pin);
+            atm.insertCard(validCardNumber);
+            atm.enterPin(validPinNumber);
             atm.selectAccount(0);
             assertThat(atm.getSelectedAccountOrNull()).isNotEqualTo(null);
         }
         {
             ATMMachine atm = new ATMMachine(200);
-            atm.insertCard(user0CardNumber);
-            atm.enterPin(user0Pin);
+            atm.insertCard(validCardNumber);
+            atm.enterPin(validPinNumber);
             atm.selectAccount(1);
             assertThat(atm.getSelectedAccountOrNull()).isNotEqualTo(null);
         }
         {
             ATMMachine atm = new ATMMachine(200);
-            atm.insertCard(user0CardNumber);
-            atm.enterPin(user0Pin);
+            atm.insertCard(validCardNumber);
+            atm.enterPin(validPinNumber);
             atm.selectAccount(2);
             assertThat(atm.getSelectedAccountOrNull()).isNotEqualTo(null);
         }
@@ -294,22 +294,22 @@ public class ATMMachineTest {
     public void SeeBalanceTest() throws ATMException {
         {
             ATMMachine atm = new ATMMachine(200);
-            atm.insertCard(user0CardNumber);
-            atm.enterPin(user0Pin);
+            atm.insertCard(validCardNumber);
+            atm.enterPin(validPinNumber);
             atm.selectAccount(0);
             assertThat(atm.getBalance()).isEqualTo(20);
         }
         {
             ATMMachine atm = new ATMMachine(200);
-            atm.insertCard(user0CardNumber);
-            atm.enterPin(user0Pin);
+            atm.insertCard(validCardNumber);
+            atm.enterPin(validPinNumber);
             atm.selectAccount(1);
             assertThat(atm.getBalance()).isEqualTo(890);
         }
         {
             ATMMachine atm = new ATMMachine(200);
-            atm.insertCard(user0CardNumber);
-            atm.enterPin(user0Pin);
+            atm.insertCard(validCardNumber);
+            atm.enterPin(validPinNumber);
             atm.selectAccount(2);
             assertThat(atm.getBalance()).isEqualTo(290);
         }
@@ -322,40 +322,40 @@ public class ATMMachineTest {
     public void DepositTest() throws ATMException {
         {
             ATMMachine atm = new ATMMachine(200);
-            atm.insertCard(user0CardNumber);
-            atm.enterPin(user0Pin);
+            atm.insertCard(validCardNumber);
+            atm.enterPin(validPinNumber);
             atm.selectAccount(0);
             atm.deposit(100);
             assertThat(atm.getRemainCash()).isEqualTo(300);
 
-            atm.insertCard(user0CardNumber);
-            atm.enterPin(user0Pin);
+            atm.insertCard(validCardNumber);
+            atm.enterPin(validPinNumber);
             atm.selectAccount(0);
             assertThat(atm.getBalance()).isEqualTo(120);
         }
         {
             ATMMachine atm = new ATMMachine(200);
-            atm.insertCard(user0CardNumber);
-            atm.enterPin(user0Pin);
+            atm.insertCard(validCardNumber);
+            atm.enterPin(validPinNumber);
             atm.selectAccount(1);
             atm.deposit(100);
             assertThat(atm.getRemainCash()).isEqualTo(300);
 
-            atm.insertCard(user0CardNumber);
-            atm.enterPin(user0Pin);
+            atm.insertCard(validCardNumber);
+            atm.enterPin(validPinNumber);
             atm.selectAccount(1);
             assertThat(atm.getBalance()).isEqualTo(990);
         }
         {
             ATMMachine atm = new ATMMachine(200);
-            atm.insertCard(user0CardNumber);
-            atm.enterPin(user0Pin);
+            atm.insertCard(validCardNumber);
+            atm.enterPin(validPinNumber);
             atm.selectAccount(2);
             atm.deposit(100);
             assertThat(atm.getRemainCash()).isEqualTo(300);
 
-            atm.insertCard(user0CardNumber);
-            atm.enterPin(user0Pin);
+            atm.insertCard(validCardNumber);
+            atm.enterPin(validPinNumber);
             atm.selectAccount(2);
             assertThat(atm.getBalance()).isEqualTo(390);
         }
@@ -368,41 +368,41 @@ public class ATMMachineTest {
     public void WithdrawTest() throws ATMException {
         {
             ATMMachine atm = new ATMMachine(200);
-            atm.insertCard(user0CardNumber);
-            atm.enterPin(user0Pin);
+            atm.insertCard(validCardNumber);
+            atm.enterPin(validPinNumber);
             atm.selectAccount(0);
             atm.withdraw(10);
             assertThat(atm.getRemainCash()).isEqualTo(190);
 
-            atm.insertCard(user0CardNumber);
-            atm.enterPin(user0Pin);
+            atm.insertCard(validCardNumber);
+            atm.enterPin(validPinNumber);
             atm.selectAccount(0);
             assertThat(atm.getBalance()).isEqualTo(20 - 10 - (int) (10 * atm.getFee()));
         }
         {
             ATMMachine atm = new ATMMachine(200);
-            atm.insertCard(user0CardNumber);
-            atm.enterPin(user0Pin);
+            atm.insertCard(validCardNumber);
+            atm.enterPin(validPinNumber);
             atm.selectAccount(1);
             int withdrawn = atm.withdraw(100);
             assertThat(withdrawn).isEqualTo(100 + (int) (100 * atm.getFee()));
             assertThat(atm.getRemainCash()).isEqualTo(100);
 
-            atm.insertCard(user0CardNumber);
-            atm.enterPin(user0Pin);
+            atm.insertCard(validCardNumber);
+            atm.enterPin(validPinNumber);
             atm.selectAccount(1);
             assertThat(atm.getBalance()).isEqualTo(890 - withdrawn);
         }
         {
             ATMMachine atm = new ATMMachine(200);
-            atm.insertCard(user0CardNumber);
-            atm.enterPin(user0Pin);
+            atm.insertCard(validCardNumber);
+            atm.enterPin(validPinNumber);
             atm.selectAccount(2);
             atm.withdraw(100);
             assertThat(atm.getRemainCash()).isEqualTo(100);
 
-            atm.insertCard(user0CardNumber);
-            atm.enterPin(user0Pin);
+            atm.insertCard(validCardNumber);
+            atm.enterPin(validPinNumber);
             atm.selectAccount(2);
             assertThat(atm.getBalance()).isEqualTo(190 - (int) (100 * atm.getFee()));
         }
@@ -414,8 +414,8 @@ public class ATMMachineTest {
     @Test
     public void ATMFullTest() throws ATMException {
         ATMMachine atm = new ATMMachine(ATMMachine.getMaxCash() - 100);
-        atm.insertCard(user0CardNumber);
-        atm.enterPin(user0Pin);
+        atm.insertCard(validCardNumber);
+        atm.enterPin(validPinNumber);
         atm.selectAccount(1);
 
         assertThatThrownBy(() -> {
@@ -435,8 +435,8 @@ public class ATMMachineTest {
     @Test
     public void NotEnoughRemainCashTest() throws ATMException {
         ATMMachine atm = new ATMMachine(0);
-        atm.insertCard(user0CardNumber);
-        atm.enterPin(user0Pin);
+        atm.insertCard(validCardNumber);
+        atm.enterPin(validPinNumber);
         atm.selectAccount(1);
 
         assertThatThrownBy(() -> {
@@ -453,8 +453,8 @@ public class ATMMachineTest {
     @Test
     public void AccountAlreadySelectedTest() throws ATMException {
         ATMMachine atm = new ATMMachine(100);
-        atm.insertCard(user0CardNumber);
-        atm.enterPin(user0Pin);
+        atm.insertCard(validCardNumber);
+        atm.enterPin(validPinNumber);
         atm.selectAccount(1);
 
         assertThatThrownBy(() -> {
@@ -472,8 +472,8 @@ public class ATMMachineTest {
     public void ClientAlreadyAuthTest() throws ATMException {
         {
             ATMMachine atm = new ATMMachine(100);
-            atm.insertCard(user0CardNumber);
-            atm.enterPin(user0Pin);
+            atm.insertCard(validCardNumber);
+            atm.enterPin(validPinNumber);
 
             assertThatThrownBy(() -> {
                 atm.enterPin("1010");
@@ -487,8 +487,8 @@ public class ATMMachineTest {
         }
         {
             ATMMachine atm = new ATMMachine(100);
-            atm.insertCard(user0CardNumber);
-            atm.enterPin(user0Pin);
+            atm.insertCard(validCardNumber);
+            atm.enterPin(validPinNumber);
             atm.selectAccount(2);
 
             assertThatThrownBy(() -> {
@@ -507,12 +507,10 @@ public class ATMMachineTest {
     public void AccountNotSelectedTest() throws ATMException {
         {
             ATMMachine atm = new ATMMachine(100);
-            atm.insertCard(user0CardNumber);
-            atm.enterPin(user0Pin);
+            atm.insertCard(validCardNumber);
+            atm.enterPin(validPinNumber);
 
-            assertThatThrownBy(() -> {
-                atm.getBalance();
-            })
+            assertThatThrownBy(atm::getBalance)
                     .isInstanceOf(AccountNotSelectedException.class)
                     .hasMessageContaining("Account has not been selected yet");
 
@@ -522,8 +520,8 @@ public class ATMMachineTest {
         }
         {
             ATMMachine atm = new ATMMachine(100);
-            atm.insertCard(user0CardNumber);
-            atm.enterPin(user0Pin);
+            atm.insertCard(validCardNumber);
+            atm.enterPin(validPinNumber);
 
             assertThatThrownBy(() -> {
                 atm.withdraw(10);
@@ -537,8 +535,8 @@ public class ATMMachineTest {
         }
         {
             ATMMachine atm = new ATMMachine(100);
-            atm.insertCard(user0CardNumber);
-            atm.enterPin(user0Pin);
+            atm.insertCard(validCardNumber);
+            atm.enterPin(validPinNumber);
 
             assertThatThrownBy(() -> {
                 atm.deposit(10);
