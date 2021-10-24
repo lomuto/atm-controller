@@ -18,7 +18,7 @@ public class ATMMachine {
     private static double FEE = 0.1;
 
     /*
-        Interface for ATM State
+     * Interface for ATM State
      */
     private static interface ATMState {
         void insertCard(String cardNumber) throws ATMException;
@@ -35,7 +35,7 @@ public class ATMMachine {
     }
 
     /*
-        Has no card state
+     * Has no card state
      */
     private static class NoCard implements ATMState {
         private final ATMMachine atmMachine;
@@ -45,7 +45,7 @@ public class ATMMachine {
         }
 
         /*
-            Luhn algorithm
+         * Luhn algorithm
          */
         private static boolean isCardNumberValid(String cardNumber) {
             int sum = 0;
@@ -111,7 +111,7 @@ public class ATMMachine {
     }
 
     /*
-        Has Card state
+     * Has Card state
      */
     private static class HasCard implements ATMState {
         private final ATMMachine atmMachine;
@@ -166,7 +166,7 @@ public class ATMMachine {
     }
 
     /*
-        Has Correct Pin State
+     * Has Correct Pin State
      */
     private static class HasCorrectPin implements ATMState {
         private final ATMMachine atmMachine;
@@ -212,7 +212,7 @@ public class ATMMachine {
     }
 
     /*
-        Account Selected State
+     * Account Selected State
      */
     private static class AccountSelected implements ATMState {
         private final ATMMachine atmMachine;
@@ -246,7 +246,7 @@ public class ATMMachine {
 
         @Override
         public int withdraw(int amount) throws NotEnoughRemianCashException {
-            int totalAmountOfCashToWithDraw = (int) (amount * (1 + atmMachine.getFee()));
+            int totalAmountOfCashToWithDraw = (int) (amount * (1 + FEE));
             if (atmMachine.remainCash - totalAmountOfCashToWithDraw < 0) {
                 atmMachine.revertAtm();
                 throw new NotEnoughRemianCashException();
@@ -269,7 +269,6 @@ public class ATMMachine {
             return amount;
         }
     }
-
 
     private final ATMState hasCard;
     private final ATMState noCard;

@@ -23,13 +23,12 @@ public class ATMMachineTest {
     private String validCardNumber = "4012888888881881";
     private String validPinNumber = "1234";
 
-
     @Before
     public void setUp() {
         Account account0 = new Account("0", 20);
         Account account1 = new Account("1", 890);
         Account account2 = new Account("2", 290);
-        ArrayList<Account> accountList = new ArrayList(Arrays.asList(account0, account1, account2));
+        ArrayList<Account> accountList = new ArrayList<Account>(Arrays.asList(account0, account1, account2));
 
         HashMap<String, ArrayList<Account>> bankAccounts = new HashMap<>();
         bankAccounts.put(validCardNumber, accountList);
@@ -44,7 +43,7 @@ public class ATMMachineTest {
     }
 
     /*
-        Test whether NoCard stated ATM machine can reject further stated methods
+     * Test whether NoCard stated ATM machine can reject further stated methods
      */
     @Test
     public void NoCardInsertedTest() throws ATMException {
@@ -52,35 +51,26 @@ public class ATMMachineTest {
 
         assertThatThrownBy(() -> {
             atm.enterPin("1234");
-        })
-                .isInstanceOf(NoCardException.class)
-                .hasMessageContaining("Card hasn't been inserted to machine");
+        }).isInstanceOf(NoCardException.class).hasMessageContaining("Card hasn't been inserted to machine");
 
         assertThatThrownBy(() -> {
             atm.selectAccount(1);
-        })
-                .isInstanceOf(NoCardException.class)
-                .hasMessageContaining("Card hasn't been inserted to machine");
+        }).isInstanceOf(NoCardException.class).hasMessageContaining("Card hasn't been inserted to machine");
 
-        assertThatThrownBy(atm::getBalance)
-                .isInstanceOf(NoCardException.class)
+        assertThatThrownBy(atm::getBalance).isInstanceOf(NoCardException.class)
                 .hasMessageContaining("Card hasn't been inserted to machine");
 
         assertThatThrownBy(() -> {
             atm.withdraw(100);
-        })
-                .isInstanceOf(NoCardException.class)
-                .hasMessageContaining("Card hasn't been inserted to machine");
+        }).isInstanceOf(NoCardException.class).hasMessageContaining("Card hasn't been inserted to machine");
 
         assertThatThrownBy(() -> {
             atm.deposit(100);
-        })
-                .isInstanceOf(NoCardException.class)
-                .hasMessageContaining("Card hasn't been inserted to machine");
+        }).isInstanceOf(NoCardException.class).hasMessageContaining("Card hasn't been inserted to machine");
     }
 
     /*
-        Testing Invalid card: Number of card is not valid for Luhn algorithm
+     * Testing Invalid card: Number of card is not valid for Luhn algorithm
      */
     @Test
     public void InvalidCardNumberTest() {
@@ -88,19 +78,16 @@ public class ATMMachineTest {
 
         assertThatThrownBy(() -> {
             atm.insertCard("8421");
-        })
-                .isInstanceOf(InvalidCardException.class)
-                .hasMessageContaining("Inserted Invalid Card");
+        }).isInstanceOf(InvalidCardException.class).hasMessageContaining("Inserted Invalid Card");
 
         assertThatThrownBy(() -> {
             atm.insertCard("0001");
-        })
-                .isInstanceOf(InvalidCardException.class)
-                .hasMessageContaining("Inserted Invalid Card");
+        }).isInstanceOf(InvalidCardException.class).hasMessageContaining("Inserted Invalid Card");
     }
 
     /*
-        Testing Invalid card: Card number is valid for Luhn algorithm but not exist in Bank database
+     * Testing Invalid card: Card number is valid for Luhn algorithm but not exist
+     * in Bank database
      */
     @Test
     public void ExpiredCardTest() {
@@ -108,19 +95,16 @@ public class ATMMachineTest {
 
         assertThatThrownBy(() -> {
             atm.insertCard("0494546708");
-        })
-                .isInstanceOf(InvalidCardException.class)
-                .hasMessageContaining("Inserted Invalid Card");
+        }).isInstanceOf(InvalidCardException.class).hasMessageContaining("Inserted Invalid Card");
 
         assertThatThrownBy(() -> {
             atm.insertCard("0034085951");
-        })
-                .isInstanceOf(InvalidCardException.class)
-                .hasMessageContaining("Inserted Invalid Card");
+        }).isInstanceOf(InvalidCardException.class).hasMessageContaining("Inserted Invalid Card");
     }
 
     /*
-        Testing ATM machine state has been successfully transferred to HasCard state after inserting valid card
+     * Testing ATM machine state has been successfully transferred to HasCard state
+     * after inserting valid card
      */
     @Test
     public void ValidCardTest() throws ATMException {
@@ -133,7 +117,7 @@ public class ATMMachineTest {
     }
 
     /*
-        Test DuplicatedCardInsertion situation
+     * Test DuplicatedCardInsertion situation
      */
     @Test
     public void DuplicatedCardInsertionTest() throws ATMException {
@@ -142,9 +126,7 @@ public class ATMMachineTest {
 
         assertThatThrownBy(() -> {
             atm.insertCard("0034085951");
-        })
-                .isInstanceOf(CardAlreadyInsertedException.class)
-                .hasMessageContaining("Card already inserted");
+        }).isInstanceOf(CardAlreadyInsertedException.class).hasMessageContaining("Card already inserted");
 
         assertThat(atm.getAtmState()).isEqualTo(atm.getNoCardState());
         assertThat(atm.getClientAccountsOrNull()).isEqualTo(null);
@@ -152,7 +134,7 @@ public class ATMMachineTest {
     }
 
     /*
-        Testing entering wrong pin number 5 times.
+     * Testing entering wrong pin number 5 times.
      */
     @Test
     public void InvalidPinTest() throws ATMException {
@@ -162,18 +144,14 @@ public class ATMMachineTest {
         for (int i = 0; i < 4; i++) {
             assertThatThrownBy(() -> {
                 atm.enterPin("0000");
-            })
-                    .isInstanceOf(IncorrectPinException.class)
-                    .hasMessageContaining("Entered pin number is incorrect");
+            }).isInstanceOf(IncorrectPinException.class).hasMessageContaining("Entered pin number is incorrect");
 
             assertThat(atm.getAtmState()).isEqualTo(atm.getHasCardState());
         }
 
         assertThatThrownBy(() -> {
             atm.enterPin("0000");
-        })
-                .isInstanceOf(IncorrectPinException.class)
-                .hasMessageContaining("Entered pin number is incorrect");
+        }).isInstanceOf(IncorrectPinException.class).hasMessageContaining("Entered pin number is incorrect");
 
         assertThat(atm.getAtmState()).isEqualTo(atm.getNoCardState());
         assertThat(atm.getClientAccountsOrNull()).isEqualTo(null);
@@ -181,7 +159,7 @@ public class ATMMachineTest {
     }
 
     /*
-        Test ATM machine state and accounts after entering valid pin number
+     * Test ATM machine state and accounts after entering valid pin number
      */
     @Test
     public void ValidPinTest() throws ATMException {
@@ -194,7 +172,8 @@ public class ATMMachineTest {
     }
 
     /*
-        Test calling accounts seleect, see balance, depost, withdraw before authenticated
+     * Test calling accounts seleect, see balance, depost, withdraw before
+     * authenticated
      */
     @Test
     public void NotAuthenticatedTest() throws ATMException {
@@ -204,9 +183,7 @@ public class ATMMachineTest {
 
             assertThatThrownBy(() -> {
                 atm.selectAccount(0);
-            })
-                    .isInstanceOf(NoAuthenticationException.class)
-                    .hasMessageContaining("Enter pin number first");
+            }).isInstanceOf(NoAuthenticationException.class).hasMessageContaining("Enter pin number first");
 
             assertThat(atm.getAtmState()).isEqualTo(atm.getNoCardState());
             assertThat(atm.getClientAccountsOrNull()).isEqualTo(null);
@@ -219,9 +196,7 @@ public class ATMMachineTest {
 
             assertThatThrownBy(() -> {
                 atm.getBalance();
-            })
-                    .isInstanceOf(NoAuthenticationException.class)
-                    .hasMessageContaining("Enter pin number first");
+            }).isInstanceOf(NoAuthenticationException.class).hasMessageContaining("Enter pin number first");
 
             assertThat(atm.getAtmState()).isEqualTo(atm.getNoCardState());
             assertThat(atm.getClientAccountsOrNull()).isEqualTo(null);
@@ -234,9 +209,7 @@ public class ATMMachineTest {
 
             assertThatThrownBy(() -> {
                 atm.deposit(100);
-            })
-                    .isInstanceOf(NoAuthenticationException.class)
-                    .hasMessageContaining("Enter pin number first");
+            }).isInstanceOf(NoAuthenticationException.class).hasMessageContaining("Enter pin number first");
 
             assertThat(atm.getAtmState()).isEqualTo(atm.getNoCardState());
             assertThat(atm.getClientAccountsOrNull()).isEqualTo(null);
@@ -248,9 +221,7 @@ public class ATMMachineTest {
 
             assertThatThrownBy(() -> {
                 atm.withdraw(100);
-            })
-                    .isInstanceOf(NoAuthenticationException.class)
-                    .hasMessageContaining("Enter pin number first");
+            }).isInstanceOf(NoAuthenticationException.class).hasMessageContaining("Enter pin number first");
 
             assertThat(atm.getAtmState()).isEqualTo(atm.getNoCardState());
             assertThat(atm.getClientAccountsOrNull()).isEqualTo(null);
@@ -259,8 +230,8 @@ public class ATMMachineTest {
     }
 
     /*
-        Testing select account
-        Followed by precondition of UI, there won't be a IndexOutOfBounds Exception
+     * Testing select account Followed by precondition of UI, there won't be a
+     * IndexOutOfBounds Exception
      */
     @Test
     public void AccountSelectTest() throws ATMException {
@@ -288,7 +259,7 @@ public class ATMMachineTest {
     }
 
     /*
-        Check see balance
+     * Check see balance
      */
     @Test
     public void SeeBalanceTest() throws ATMException {
@@ -316,7 +287,7 @@ public class ATMMachineTest {
     }
 
     /*
-        Test deposit
+     * Test deposit
      */
     @Test
     public void DepositTest() throws ATMException {
@@ -362,7 +333,7 @@ public class ATMMachineTest {
     }
 
     /*
-        Test withdraw
+     * Test withdraw
      */
     @Test
     public void WithdrawTest() throws ATMException {
@@ -377,7 +348,7 @@ public class ATMMachineTest {
             atm.insertCard(validCardNumber);
             atm.enterPin(validPinNumber);
             atm.selectAccount(0);
-            assertThat(atm.getBalance()).isEqualTo(20 - 10 - (int) (10 * atm.getFee()));
+            assertThat(atm.getBalance()).isEqualTo(20 - 10 - (int) (10 * ATMMachine.getFee()));
         }
         {
             ATMMachine atm = new ATMMachine(200);
@@ -385,7 +356,7 @@ public class ATMMachineTest {
             atm.enterPin(validPinNumber);
             atm.selectAccount(1);
             int withdrawn = atm.withdraw(100);
-            assertThat(withdrawn).isEqualTo(100 + (int) (100 * atm.getFee()));
+            assertThat(withdrawn).isEqualTo(100 + (int) (100 * ATMMachine.getFee()));
             assertThat(atm.getRemainCash()).isEqualTo(100);
 
             atm.insertCard(validCardNumber);
@@ -404,12 +375,13 @@ public class ATMMachineTest {
             atm.insertCard(validCardNumber);
             atm.enterPin(validPinNumber);
             atm.selectAccount(2);
-            assertThat(atm.getBalance()).isEqualTo(190 - (int) (100 * atm.getFee()));
+            assertThat(atm.getBalance()).isEqualTo(190 - (int) (100 * ATMMachine.getFee()));
         }
     }
 
     /*
-        Testing depositing cash would yield remain cash of atm becomes more than its capacity
+     * Testing depositing cash would yield remain cash of atm becomes more than its
+     * capacity
      */
     @Test
     public void ATMFullTest() throws ATMException {
@@ -420,9 +392,7 @@ public class ATMMachineTest {
 
         assertThatThrownBy(() -> {
             atm.deposit(101);
-        })
-                .isInstanceOf(ATMFullException.class)
-                .hasMessageContaining("ATM is full, can't deposit money");
+        }).isInstanceOf(ATMFullException.class).hasMessageContaining("ATM is full, can't deposit money");
 
         assertThat(atm.getAtmState()).isEqualTo(atm.getNoCardState());
         assertThat(atm.getClientAccountsOrNull()).isEqualTo(null);
@@ -430,7 +400,8 @@ public class ATMMachineTest {
     }
 
     /*
-        Testing depositing cash would yield remain cash of atm becomes more than its capacity
+     * Testing depositing cash would yield remain cash of atm becomes more than its
+     * capacity
      */
     @Test
     public void NotEnoughRemainCashTest() throws ATMException {
@@ -441,8 +412,7 @@ public class ATMMachineTest {
 
         assertThatThrownBy(() -> {
             atm.withdraw(1);
-        })
-                .isInstanceOf(NotEnoughRemianCashException.class)
+        }).isInstanceOf(NotEnoughRemianCashException.class)
                 .hasMessageContaining("Not enough cash remained in ATM, can't withdraw money");
 
         assertThat(atm.getAtmState()).isEqualTo(atm.getNoCardState());
@@ -451,7 +421,7 @@ public class ATMMachineTest {
     }
 
     /*
-        Test selecting duplicated account selection
+     * Test selecting duplicated account selection
      */
     @Test
     public void AccountAlreadySelectedTest() throws ATMException {
@@ -462,8 +432,7 @@ public class ATMMachineTest {
 
         assertThatThrownBy(() -> {
             atm.selectAccount(2);
-        })
-                .isInstanceOf(AccountAlreadySelectedException.class)
+        }).isInstanceOf(AccountAlreadySelectedException.class)
                 .hasMessageContaining("Account has been already selected");
 
         assertThat(atm.getAtmState()).isEqualTo(atm.getAccountSelectedState());
@@ -472,7 +441,7 @@ public class ATMMachineTest {
     }
 
     /*
-        Test attempt to authenticate again
+     * Test attempt to authenticate again
      */
     @Test
     public void ClientAlreadyAuthTest() throws ATMException {
@@ -483,8 +452,7 @@ public class ATMMachineTest {
 
             assertThatThrownBy(() -> {
                 atm.enterPin("1010");
-            })
-                    .isInstanceOf(ClientAlreadyAuthenticated.class)
+            }).isInstanceOf(ClientAlreadyAuthenticated.class)
                     .hasMessageContaining("Client has been already authenticated");
 
             assertThat(atm.getAtmState()).isEqualTo(atm.getHasCorrectPinState());
@@ -499,8 +467,7 @@ public class ATMMachineTest {
 
             assertThatThrownBy(() -> {
                 atm.enterPin("1010");
-            })
-                    .isInstanceOf(ClientAlreadyAuthenticated.class)
+            }).isInstanceOf(ClientAlreadyAuthenticated.class)
                     .hasMessageContaining("Client has been already authenticated");
 
             assertThat(atm.getAtmState()).isEqualTo(atm.getAccountSelectedState());
@@ -510,7 +477,7 @@ public class ATMMachineTest {
     }
 
     /*
-        Test calling method before select account
+     * Test calling method before select account
      */
     @Test
     public void AccountNotSelectedTest() throws ATMException {
@@ -519,8 +486,7 @@ public class ATMMachineTest {
             atm.insertCard(validCardNumber);
             atm.enterPin(validPinNumber);
 
-            assertThatThrownBy(atm::getBalance)
-                    .isInstanceOf(AccountNotSelectedException.class)
+            assertThatThrownBy(atm::getBalance).isInstanceOf(AccountNotSelectedException.class)
                     .hasMessageContaining("Account has not been selected yet");
 
             assertThat(atm.getAtmState()).isEqualTo(atm.getNoCardState());
@@ -534,8 +500,7 @@ public class ATMMachineTest {
 
             assertThatThrownBy(() -> {
                 atm.withdraw(10);
-            })
-                    .isInstanceOf(AccountNotSelectedException.class)
+            }).isInstanceOf(AccountNotSelectedException.class)
                     .hasMessageContaining("Account has not been selected yet");
 
             assertThat(atm.getAtmState()).isEqualTo(atm.getNoCardState());
@@ -549,8 +514,7 @@ public class ATMMachineTest {
 
             assertThatThrownBy(() -> {
                 atm.deposit(10);
-            })
-                    .isInstanceOf(AccountNotSelectedException.class)
+            }).isInstanceOf(AccountNotSelectedException.class)
                     .hasMessageContaining("Account has not been selected yet");
 
             assertThat(atm.getAtmState()).isEqualTo(atm.getNoCardState());
