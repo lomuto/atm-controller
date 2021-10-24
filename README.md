@@ -6,7 +6,7 @@ simple ATM Controller
 
 ![IMAGE](./docs/images/flow.PNG)
 
-- Choosen Java rather than Javascript for handling multiple heavy tasks without causing server crash.
+- Choose Java rather than Javascript for handling multiple heavy tasks without causing server crash.
 - Implemented ATM Controller with State Design Pattern for flexible and resuable software structure.
 - Utilized nested class for strong encapsulation
 
