@@ -22,6 +22,10 @@ simple ATM Controller
 
 ## Build and run test
 
+First, navigate to the directory where you have cloned the remore repository.
+
+Build and run tests with following commands
+
 - Build  
   `mvn compile`
 
