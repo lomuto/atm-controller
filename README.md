@@ -22,5 +22,8 @@ simple ATM Controller
 
 ## Build and run test
 
-- Build
-- Test
+- Build  
+  `mvn compile`
+
+- Test  
+  `mvn test`
